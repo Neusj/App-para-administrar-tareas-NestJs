@@ -1,1 +1,1 @@
-Aplicación para administrar tarea, para practica y portafolio.
+Aplicación para administrar tareas, para practica y portafolio.
