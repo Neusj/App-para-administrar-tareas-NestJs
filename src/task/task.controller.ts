@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Delete, Put, Body, Param } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Post,
+    Delete,
+    Put,
+    Body,
+    Param,
+    ConflictException,
+    NotFoundException
+} from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from 'src/dto/cretae-task.dto';
 import { UpdateTaskDto } from 'src/dto/update-task.dto';
@@ -13,26 +23,38 @@ export class TaskController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.taskServise.findOne(id);
+    async findOne(@Param('id') id: string) {
+        const task = await this.taskServise.findOne(id);
+        if (!task) throw new NotFoundException('Tarea no encontrada');
+        return task;
     }
 
     @Post()
-    create(@Body() body: CreateTaskDto) {
-        return this.taskServise.create(body);
+    async create(@Body() body: CreateTaskDto) {
+        try {
+            return await this.taskServise.create(body);
+        } catch (error) {
+            if (error.code == 11000) {
+                throw new ConflictException('Tarea existente');
+            }
+            throw error;
+        }
     }
 
     @Delete(':id')
-    delete(@Param('id') id: string) {
-        return this.taskServise.delete(id);
+    async delete(@Param('id') id: string) {
+        const task = await this.taskServise.delete(id);
+        if (!task) throw new NotFoundException('Tarea no encontrada');
+        return task;
     }
 
     @Put(':id')
-    update(
+    async update(
         @Param('id') id: string,
-        @Body() body: UpdateTaskDto) {
-        return this.taskServise.update(id, body);
-
+        @Body() body: UpdateTaskDto
+    ) {
+        const task = await this.taskServise.update(id, body);
+        if (!task) throw new NotFoundException('Tarea no encontrada');
+        return task;
     }
-
 }
