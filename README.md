@@ -9,4 +9,5 @@ Esta aplicación esta hecha principalmente para el conocimiento y práctica de l
 -. TypeScript
 -. TypeORM
 -. React
+-. Tailwind
 -. Git
