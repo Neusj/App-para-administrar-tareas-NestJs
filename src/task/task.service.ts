@@ -11,7 +11,7 @@ export class TaskService {
 
 
     findAll() {
-        this.taskModel.find();
+        return this.taskModel.find();
     }
 
     async create(createTask: CreateTaskDto) {
@@ -28,7 +28,8 @@ export class TaskService {
     }
 
     async update(id: string, task: UpdateTaskDto) {
-        return this.taskModel.findByIdAndUpdate(id, task);
+        //new: true. para que retorne el elemento recien editado
+        return this.taskModel.findByIdAndUpdate(id, task, {new: true});
     }
 
 }
