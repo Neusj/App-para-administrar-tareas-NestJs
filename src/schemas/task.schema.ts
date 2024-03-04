@@ -15,7 +15,7 @@ export class Task {
     @Prop({
         trim: true
     })
-    decription: string;
+    description: string;
 
     @Prop({
         default: false
